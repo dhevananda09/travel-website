@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VivaTrips | Colorful Travel Website</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{ box-sizing: border-box; }
+    html{ scroll-behavior: smooth; }
+
+    body{
+      margin:0;
+      font-family: "Poppins", sans-serif;
+      color:#111827;
+      background: radial-gradient(circle at 10% 10%, #ffedd5, transparent 45%),
+                  radial-gradient(circle at 90% 20%, #dbeafe, transparent 45%),
+                  radial-gradient(circle at 40% 90%, #fce7f3, transparent 45%),
+                  linear-gradient(135deg, #ffffff, #f7faff);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* Floating animated blobs */
+    .blob{
+      position: fixed;
+      z-index: -1;
+      filter: blur(30px);
+      opacity: 0.55;
+      border-radius: 50%;
+      animation: floaty 8s ease-in-out infinite;
+    }
+    .blob.one{
+      width: 260px; height: 260px;
+      left: -80px; top: 120px;
+      background: radial-gradient(circle, #ff4d6d, transparent 60%);
+      animation-duration: 10s;
+    }
+    .blob.two{
+      width: 320px; height: 320px;
+      right: -120px; top: 40px;
+      background: radial-gradient(circle, #7c3aed, transparent 60%);
+      animation-duration: 12s;
+    }
+    .blob.three{
+      width: 260px; height: 260px;
+      left: 20%; bottom: -120px;
+      background: radial-gradient(circle, #0ea5e9, transparent 60%);
+      animation-duration: 11s;
+    }
+
+    @keyframes floaty{
+      0%{ transform: translateY(0px) translateX(0px) scale(1); }
+      50%{ transform: translateY(-22px) translateX(18px) scale(1.05); }
+      100%{ transform: translateY(0px) translateX(0px) scale(1); }
+    }
+
+    /* Navbar */
+    .nav{
+      position: sticky;
+      top:0;
+      z-index:50;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(17,24,39,0.08);
+    }
+
+    .nav-inner{
+      max-width:1100px;
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      color:#111827;
+      font-weight:800;
+      letter-spacing:0.2px;
+    }
+
+    .logo{
+      width:38px;
+      height:38px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      color:white;
+      background: linear-gradient(135deg, #ff4d6d, #7c3aed, #0ea5e9);
+    }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .nav-links a{
+      text-decoration:none;
+      color:#374151;
+      font-weight:600;
+      font-size:14px;
+    }
+    .nav-links a:hover{ color:#111827; }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+      padding:10px 14px;
+      border-radius:14px;
+      font-family: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0px 10px 18px rgba(0,0,0,0.10);
+    }
+
+    .btn-primary{
+      color:white;
+      background: linear-gradient(135deg, #ff4d6d, #7c3aed, #0ea5e9);
+    }
+
+    .btn-soft{
+      color:#111827;
+      background: rgba(255,255,255,0.8);
+      border:1px solid rgba(17,24,39,0.12);
+    }
+
+    /* Hero */
+    .hero{
+      max-width:1100px;
+      margin:0 auto;
+      padding: 60px 18px 26px;
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap:20px;
+      align-items:stretch;
+    }
+
+    .hero-left{
+      padding:28px;
+      border-radius:24px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(17,24,39,0.08);
+      box-shadow: 0px 12px 30px rgba(0,0,0,0.08);
+      position:relative;
+      overflow:hidden;
+      animation: popIn 0.8s ease;
+    }
+
+    .hero-left::before{
+      content:"";
+      position:absolute;
+      width:300px;
+      height:300px;
+      right:-120px;
+      top:-120px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,77,109,0.35), transparent 60%),
+                  radial-gradient(circle at 70% 70%, rgba(124,58,237,0.25), transparent 60%);
+    }
+
+    @keyframes popIn{
+      from{ opacity:0; transform: translateY(15px); }
+      to{ opacity:1; transform: translateY(0px); }
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(14,165,233,0.10);
+      border:1px solid rgba(14,165,233,0.25);
+      font-size:13px;
+      font-weight:700;
+      color:#0f172a;
+      width:fit-content;
+    }
+
+    .hero h1{
+      margin: 14px 0 10px;
+      font-size:44px;
+      line-height:1.1;
+    }
+
+    .hero p{
+      margin:0;
+      color:#374151;
+      line-height:1.7;
+      font-size:15px;
+      max-width:60ch;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    /* Search box */
+   .search{
+  margin-top:18px;
+  padding:14px;
+  border-radius:18px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(17,24,39,0.08);
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 130px;
+  gap:10px;
+}
+
+.search button{
+  width:100%;
+}
+
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .field label{
+      font-size:12px;
+      font-weight:700;
+      color:#6b7280;
+    }
+    .field input, .field select{
+      padding:11px 12px;
+      border-radius:14px;
+      border:1px solid rgba(17,24,39,0.12);
+      outline:none;
+      font-family: inherit;
+      background: white;
+    }
+
+    .hero-right{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .info-card{
+      padding:18px;
+      border-radius:24px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(17,24,39,0.08);
+      box-shadow: 0px 12px 30px rgba(0,0,0,0.08);
+      animation: popIn 0.9s ease;
+    }
+
+    .info-card h3{
+      margin:0 0 8px;
+    }
+    .info-card p{
+      margin:0;
+      color:#374151;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:auto;
+    }
+
+    .stat{
+      padding:16px;
+      border-radius:22px;
+      background: white;
+      border: 1px solid rgba(17,24,39,0.10);
+      transition: transform 0.2s ease;
+    }
+    .stat:hover{ transform: translateY(-2px); }
+    .stat strong{
+      display:block;
+      font-size:18px;
+    }
+    .stat span{
+      font-size:12px;
+      color:#6b7280;
+      font-weight:700;
+    }
+
+    /* Sections */
+    .section{
+      max-width:1100px;
+      margin:0 auto;
+      padding: 28px 18px;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size:22px;
+    }
+    .section-head p{
+      margin:0;
+      color:#6b7280;
+      font-weight:500;
+      font-size:13px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+
+    .card{
+      padding:16px;
+      border-radius:22px;
+      background: rgba(255,255,255,0.85);
+      border:1px solid rgba(17,24,39,0.08);
+      box-shadow: 0px 12px 22px rgba(0,0,0,0.06);
+      transition: transform 0.2s ease, opacity 0.5s ease;
+      cursor:pointer;
+      overflow:hidden;
+      position:relative;
+
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    .card.show{
+      opacity: 1;
+      transform: translateY(0px);
+    }
+
+    .thumb{
+      height:135px;
+      border-radius:18px;
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      padding:12px;
+      font-weight:800;
+      color:white;
+      letter-spacing:0.3px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .thumb::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.0));
+    }
+    .thumb span{
+      position:relative;
+      z-index:2;
+    }
+
+    .card h3{
+      margin:12px 0 6px;
+      font-size:16px;
+    }
+    .card small{
+      color:#6b7280;
+      font-weight:600;
+    }
+
+    .pills{
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      background: rgba(124,58,237,0.10);
+      border:1px solid rgba(124,58,237,0.15);
+      color:#4c1d95;
+    }
+
+    /* Footer */
+    .footer{
+      text-align:center;
+      padding: 30px 18px 45px;
+      color:#6b7280;
+      font-weight:600;
+      font-size:13px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero{ grid-template-columns:1fr; }
+      .grid{ grid-template-columns:1fr; }
+      .search{ grid-template-columns:1fr; }
+      .nav-links{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Animated background blobs -->
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+  <div class="blob three"></div>
+
+  <!-- Navbar -->
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <div class="logo">🌈</div>
+        VivaTrips
+      </a>
+
+      <div class="nav-links">
+        <a href="#destinations">Destinations</a>
+        <a href="#packages">Packages</a>
+        <a href="#why">Why Us</a>
+      </div>
+
+      <div>
+        <button class="btn btn-soft" onclick="scrollToSection('search')">Plan Trip</button>
+        <button class="btn btn-primary" onclick="bookNow()">Book Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-left" id="search">
+      <div class="tag">✨ Colorful UI • Modern Design • Frontend Only</div>
+      <h1>Travel bright. Explore more. 🌍</h1>
+      <p>
+        A modern and elegant travel landing page built using only HTML, CSS and JavaScript.
+        Perfect mini project for your portfolio!
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="scrollToSection('packages')">View Packages</button>
+        <button class="btn btn-soft" onclick="scrollToSection('destinations')">Top Destinations</button>
+      </div>
+
+      <div class="search">
+        <div class="field">
+          <label>Destination</label>
+          <select id="destination">
+            <option>Kerala</option>
+            <option>Goa</option>
+            <option>Dubai</option>
+            <option>Singapore</option>
+            <option>Thailand</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Start Date</label>
+          <input type="date" id="startDate" />
+        </div>
+
+        <div class="field">
+          <label>Guests</label>
+          <input type="number" id="guests" min="1" value="2" />
+        </div>
+
+        <button class="btn btn-primary" onclick="searchTrips()">Search</button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="info-card">
+        <h3>🔥 Trending Trips</h3>
+        <p>Kerala • Goa • Dubai • Thailand • Singapore</p>
+      </div>
+
+      <div class="info-card">
+        <h3>💳 Easy Booking</h3>
+        <p>Frontend demo with modern UI. Booking system can be added later.</p>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <strong>150+</strong>
+          <span>Trips Planned</span>
+        </div>
+        <div class="stat">
+          <strong>4.9★</strong>
+          <span>Top Ratings</span>
+        </div>
+        <div class="stat">
+          <strong>24/7</strong>
+          <span>Support</span>
+        </div>
+        <div class="stat">
+          <strong>₹</strong>
+          <span>Budget Friendly</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Destinations -->
+  <div class="section" id="destinations">
+    <div class="section-head">
+      <div>
+        <h2>Top Destinations</h2>
+        <p>Real images + fade-in animation ✨</p>
+      </div>
+      <button class="btn btn-soft" onclick="bookNow()">View All</button>
+    </div>
+
+    <div class="grid">
+      <div class="card" onclick="pickDestination('Kerala')">
+        <div class="thumb" style="background-image:url('images/kerala.jpg');">
+  <span>Kerala</span>
+</div>
+        <h3>Kerala Escape</h3>
+        <small>Nature • Backwaters • Culture</small>
+        <div class="pills">
+          <span class="pill">3 Days</span>
+          <span class="pill">Relax</span>
+          <span class="pill">Houseboat</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="pickDestination('Goa')">
+       <div class="thumb" style="background-image:url('images/goa.jpg');">
+  <span>Goa</span>
+</div>
+
+        <h3>Goa Beach Trip</h3>
+        <small>Beach • Fun • Nightlife</small>
+        <div class="pills">
+          <span class="pill">2 Days</span>
+          <span class="pill">Beach</span>
+          <span class="pill">Party</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="pickDestination('Dubai')">
+        <div class="thumb" style="background-image:url('images/dubai.jpg');">
+  <span>Dubai</span>
+</div>
+        <h3>Dubai Luxury</h3>
+        <small>Skyline • Shopping • Desert</small>
+        <div class="pills">
+          <span class="pill">5 Days</span>
+          <span class="pill">Luxury</span>
+          <span class="pill">City Tour</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Packages -->
+  <div class="section" id="packages">
+    <div class="section-head">
+      <div>
+        <h2>Popular Packages</h2>
+        <p>Package cards with images ✅</p>
+      </div>
+      <button class="btn btn-primary" onclick="bookNow()">Get Offers</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+       <div class="thumb" style="background-image:url('images/starter.jpg');">
+  <span>Starter</span>
+</div>
+        <h3>Budget Explorer</h3>
+        <small>Hotels • Local Travel • Support</small>
+        <div class="pills">
+          <span class="pill">₹ 9,999</span>
+          <span class="pill">2 Nights</span>
+          <span class="pill">Best Value</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="thumb" style="background-image:url('images/premium.jpg');">
+  <span>Premium</span>
+</div>
+        <h3>Comfort Journey</h3>
+        <small>Resort • Food • Guided Tour</small>
+        <div class="pills">
+          <span class="pill">₹ 19,999</span>
+          <span class="pill">4 Nights</span>
+          <span class="pill">Popular</span>
+        </div>
+      </div>
+
+      <div class="card">
+       <div class="thumb" style="background-image:url('images/elite.jpg');">
+  <span>Elite</span>
+</div>
+
+        <h3>Luxury Vacation</h3>
+        <small>5★ Stay • VIP Service • Pickup</small>
+        <div class="pills">
+          <span class="pill">₹ 39,999</span>
+          <span class="pill">6 Nights</span>
+          <span class="pill">Elite</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Us -->
+  <div class="section" id="why">
+    <div class="section-head">
+      <div>
+        <h2>Why Choose VivaTrips?</h2>
+        <p>Bright + elegant + portfolio ready 🌈</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>✅ Clean & Elegant</h3>
+        <small>Perfect spacing, rounded cards, modern layout.</small>
+      </div>
+      <div class="card">
+        <h3>⚡ Responsive</h3>
+        <small>Looks great on mobile and laptop screens.</small>
+      </div>
+      <div class="card">
+        <h3>✨ Animated UI</h3>
+        <small>Fade-in cards + floating background blobs.</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2026 VivaTrips • Built by Dhevananda TV
+  </div>
+
+  <script>
+    function scrollToSection(id){
+      document.getElementById(id).scrollIntoView({behavior:"smooth"});
+    }
+
+    function bookNow(){
+      alert("✅ Frontend demo only. Booking system can be added later!");
+    }
+
+    function pickDestination(place){
+      document.getElementById("destination").value = place;
+      scrollToSection("search");
+    }
+
+    function searchTrips(){
+      const dest = document.getElementById("destination").value;
+      const start = document.getElementById("startDate").value || "Not selected";
+      const guests = document.getElementById("guests").value;
+
+      alert(
+        "🔎 Searching trips...\n\n" +
+        "Destination: " + dest + "\n" +
+        "Start Date: " + start + "\n" +
+        "Guests: " + guests + "\n\n" +
+        "✅ This is a frontend-only demo!"
+      );
+    }
+
+    // Fade-in animation for cards on scroll
+    const cards = document.querySelectorAll(".card");
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    cards.forEach(card => observer.observe(card));
+  </script>
+
+</body>
+</html>
