@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard | VivaTrips</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+    margin:0;
+    font-family:Poppins, sans-serif;
+    background:#f5f7fb;
+}
+
+/* NAVBAR */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 40px;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+}
+
+header a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:500;
+}
+
+/* CONTAINER */
+.container{
+    width:90%;
+    margin:auto;
+}
+
+/* STATS */
+.stats{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    width:200px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card h2{
+    margin:10px 0;
+}
+
+/* CHART */
+.chart{
+    margin-top:30px;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+}
+
+/* TABLE */
+.table-box{
+    background:white;
+    margin-top:30px;
+    padding:20px;
+    border-radius:15px;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    background:#667eea;
+    color:white;
+}
+
+tr:hover{
+    background:#f2f2f2;
+}
+
+/* DELETE */
+.delete-btn{
+    color:red;
+    text-decoration:none;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>📊 Admin Dashboard</h2>
+<div>
+<a href="/">🏠 Home</a>
+<a href="/logout">🚪 Logout</a>
+</div>
+</header>
+
+<div class="container">
+
+<!-- STATS -->
+<div class="stats">
+<div class="card">
+<h4>Total People</h4>
+<h2>{{ total }}</h2>
+</div>
+
+<div class="card">
+<h4>Revenue</h4>
+<h2>₹ {{ revenue }}</h2>
+</div>
+
+<div class="card">
+<h4>Total Bookings</h4>
+<h2>{{ bookings|length }}</h2>
+</div>
+</div>
+
+<!-- CHART -->
+<div class="chart">
+<h3>Bookings Overview</h3>
+<canvas id="chart"></canvas>
+</div>
+
+<!-- TABLE -->
+<div class="table-box">
+
+<h3>All Bookings</h3>
+
+{% if bookings %}
+<table>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Destination</th>
+<th>People</th>
+<th>Payment</th>
+<th>Date</th>
+<th>Action</th>
+</tr>
+
+{% for b in bookings %}
+<tr>
+<td>{{ b.name }}</td>
+<td>{{ b.email }}</td>
+<td>{{ b.destination }}</td>
+<td>{{ b.people }}</td>
+<td>{{ b.payment }}</td>
+<td>{{ b.date }}</td>
+<td>
+<a href="/delete/{{ b.id }}" class="delete-btn"
+onclick="return confirm('Delete this booking?')">
+Delete
+</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+<p>No bookings yet</p>
+{% endif %}
+
+</div>
+
+</div>
+
+<script>
+
+// 🔥 Dynamic data from Flask
+let stats = {{ stats | tojson }};
+
+let labels = Object.keys(stats);
+let data = Object.values(stats);
+
+// BAR CHART
+new Chart(document.getElementById("chart"), {
+    type: "bar",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Bookings",
+            data: data
+        }]
+    }
+});
+
+</script>
+
+</body>
+</html>

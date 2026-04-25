@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>VivaTrips</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+body{
+    font-family:Poppins, sans-serif;
+    background:linear-gradient(120deg,#eef2ff,#f9f9ff);
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    padding:20px;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+}
+
+header a{
+    color:white;
+    margin-left:15px;
+    text-decoration:none;
+}
+
+/* GRID */
+.grid{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+    margin-top:30px;
+}
+
+/* CARD */
+.card{
+    width:240px;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    cursor:pointer;
+    position:relative;
+}
+
+.card img{
+    width:100%;
+    height:140px;
+    object-fit:cover;
+}
+
+.card h3{
+    margin:10px;
+}
+
+.features{
+    padding:0 10px 15px;
+    font-size:14px;
+    color:#555;
+}
+
+/* HEART */
+.heart{
+    position:absolute;
+    top:10px;
+    right:10px;
+}
+
+.box{
+    width:80%;
+    margin:40px auto;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    border:2px dashed #667eea; /* keep this */
+}
+/* FORM */
+.form-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+input, select{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    width:100%;
+}
+
+/* BUTTON */
+button{
+    padding:12px;
+    background:#667eea;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;              /* 🔥 ADD */
+    left:0;             /* 🔥 ADD */
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    z-index:1000;       /* 🔥 ADD */
+}
+
+.modal.active{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    z-index:1001;       /* 🔥 ADD */
+}
+/* CONFIRM */
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.confirm-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    width:60%;
+    margin:20px auto;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+
+    /* animation */
+    animation:fadeIn 0.5s ease;
+}
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h2>🌍 VivaTrips</h2>
+<div>
+<a href="/">Home</a>
+<a href="/explore">Explore</a>
+<a href="/wishlist">Wishlist</a>
+<a href="/admin">📊 Admin</a>
+</div>
+</header>
+
+<!-- DESTINATIONS -->
+<div class="grid">
+
+<!-- INDIA -->
+<div class="card" onclick="goDetail('Goa')">
+<span class="heart" onclick="addWishlist(event,'Goa')">❤️</span>
+<img src="{{ url_for('static', filename='images/goa.jpg') }}">
+<h3>Goa</h3>
+<div class="features">Beaches • Nightlife • Parties</div>
+</div>
+
+<div class="card" onclick="goDetail('Kerala')">
+<span class="heart" onclick="addWishlist(event,'Kerala')">❤️</span>
+<img src="{{ url_for('static', filename='images/kerala.jpg') }}">
+<h3>Kerala</h3>
+<div class="features">Backwaters • Nature • Culture</div>
+</div>
+
+<div class="card" onclick="goDetail('Manali')">
+<span class="heart" onclick="addWishlist(event,'Manali')">❤️</span>
+<img src="{{ url_for('static', filename='images/manali.jpg') }}">
+<h3>Manali</h3>
+<div class="features">Snow • Mountains • Adventure</div>
+</div>
+
+<div class="card" onclick="goDetail('Jaipur')">
+<span class="heart" onclick="addWishlist(event,'Jaipur')">❤️</span>
+<img src="{{ url_for('static', filename='images/jaipur.jpg') }}">
+<h3>Jaipur</h3>
+<div class="features">Palaces • Heritage • Culture</div>
+</div>
+
+<div class="card" onclick="goDetail('Kashmir')">
+<span class="heart" onclick="addWishlist(event,'Kashmir')">❤️</span>
+<img src="{{ url_for('static', filename='images/kashmir.jpg') }}">
+<h3>Kashmir</h3>
+<div class="features">Valleys • Snow • Lakes</div>
+</div>
+
+<div class="card" onclick="goDetail('Andaman')">
+<span class="heart" onclick="addWishlist(event,'Andaman')">❤️</span>
+<img src="{{ url_for('static', filename='images/andaman.jpg') }}">
+<h3>Andaman</h3>
+<div class="features">Islands • Beaches • Diving</div>
+</div>
+
+<!-- INTERNATIONAL -->
+<div class="card" onclick="goDetail('Dubai')">
+<span class="heart" onclick="addWishlist(event,'Dubai')">❤️</span>
+<img src="{{ url_for('static', filename='images/dubai.jpg') }}">
+<h3>Dubai</h3>
+<div class="features">Luxury • Desert • Shopping</div>
+</div>
+
+<div class="card" onclick="goDetail('Paris')">
+<span class="heart" onclick="addWishlist(event,'Paris')">❤️</span>
+<img src="{{ url_for('static', filename='images/paris.jpg') }}">
+<h3>Paris</h3>
+<div class="features">Romance • Art • Cafes</div>
+</div>
+
+<div class="card" onclick="goDetail('Maldives')">
+<span class="heart" onclick="addWishlist(event,'Maldives')">❤️</span>
+<img src="{{ url_for('static', filename='images/maldives.jpg') }}">
+<h3>Maldives</h3>
+<div class="features">Luxury • Ocean • Villas</div>
+</div>
+
+<div class="card" onclick="goDetail('Singapore')">
+<span class="heart" onclick="addWishlist(event,'Singapore')">❤️</span>
+<img src="{{ url_for('static', filename='images/singapore.jpg') }}">
+<h3>Singapore</h3>
+<div class="features">City • Skyline • Tech</div>
+</div>
+
+<div class="card" onclick="goDetail('Bali')">
+<span class="heart" onclick="addWishlist(event,'Bali')">❤️</span>
+<img src="{{ url_for('static', filename='images/bali.jpg') }}">
+<h3>Bali</h3>
+<div class="features">Temples • Beaches • Culture</div>
+</div>
+
+</div>
+
+<!-- FORM -->
+<div class="box">
+
+<form method="POST" id="bookingForm">
+
+<div class="form-row">
+<input name="name" placeholder="Name" required>
+<input name="email" placeholder="Email" required>
+</div>
+
+<div class="form-row">
+<select name="destination">
+<option value="" disabled selected hidden>Select Destination</option>
+<option>Goa</option>
+<option>Kerala</option>
+<option>Manali</option>
+<option>Jaipur</option>
+<option>Kashmir</option>
+<option>Andaman</option>
+<option>Dubai</option>
+<option>Paris</option>
+<option>Maldives</option>
+<option>Singapore</option>
+<option>Bali</option>
+</select>
+
+<input type="number" name="people" id="people" oninput="calc()" placeholder="People" required>
+
+<input type="date" name="date" id="date" required>
+</div>
+
+<p id="price">₹0</p>
+
+<button type="button" onclick="openPayment()">Proceed 💳</button>
+<input type="hidden" name="payment" id="paymentInput">
+
+</form>
+
+<div id="confirmation"></div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="pay">
+  <div class="modal-content">
+
+    <h3>Payment</h3>
+    <p id="amt"></p>
+
+    <p>Select Payment Method</p>
+
+    <select id="method" onchange="showPayment()">
+      <option value="UPI">UPI</option>
+      <option value="Card">Card</option>
+    </select>
+
+    <!-- UPI QR -->
+    <div id="upiBox" style="display:none; margin-top:10px;">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi-payment">
+      <p>Scan using any UPI app</p>
+    </div>
+
+    <!-- CARD FORM -->
+    <div id="cardBox" style="display:none; margin-top:10px;">
+      <input placeholder="Card Number"><br><br>
+      <input placeholder="Expiry (MM/YY)"><br><br>
+      <input placeholder="CVV"><br><br>
+    </div>
+
+    <button onclick="confirmPayment(event)">Pay Now</button>
+    <button onclick="closeModal()">Cancel</button>
+
+  </div>
+</div>
+
+<script>
+function calc(){
+  let p = document.getElementById("people").value || 0;
+  document.getElementById("price").innerText = "₹" + (p * 5000);
+}
+
+function openPayment(){
+  let email = document.querySelector("input[name='email']").value;
+
+let pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if(!pattern.test(email)){
+    alert("Enter valid email");
+    return;
+}
+  let p = document.getElementById("people").value;
+  let date = document.getElementById("date").value;
+
+  if(!p || p <= 0){
+    alert("Enter valid number of people");
+    return;
+  }
+
+  if(!date){
+    alert("Select travel date");
+    return;
+  }
+
+  document.getElementById("amt").innerText = "Total: ₹" + (p * 5000);
+  document.getElementById("pay").classList.add("active");
+
+  document.getElementById("method").value = "UPI";
+  showPayment();
+}
+
+function showPayment(){
+  let method = document.getElementById("method").value;
+
+  document.getElementById("upiBox").style.display =
+    method === "UPI" ? "block" : "none";
+
+  document.getElementById("cardBox").style.display =
+    method === "Card" ? "block" : "none";
+}
+
+/* 🔥 renamed (don’t use confirm()) */
+function confirmPayment(event){
+
+  event.preventDefault();
+
+  let method = document.getElementById("method").value;
+  document.getElementById("paymentInput").value = method;
+
+  let bookingId = Date.now();  // unique
+
+  let name = document.querySelector("input[name='name']").value;
+  let place = document.querySelector("select[name='destination']").value;
+  let people = document.getElementById("people").value;
+  let date = document.getElementById("date").value;
+
+  document.getElementById("pay").classList.remove("active");
+
+  document.getElementById("confirmation").innerHTML =
+  `<div class="confirm-box" id="ticketBox">
+    <h2>Booking Confirmed ✅</h2>
+    <p><b>Booking ID:</b> #${bookingId}</p>
+
+    <p><b>Status:</b> Confirmed</p>
+
+    <p><b>Name:</b> ${name}</p>
+    <p><b>Destination:</b> ${place}</p>
+    <p><b>People:</b> ${people}</p>
+    <p><b>Date:</b> ${date}</p>
+    <p><b>Payment:</b> ${method}</p>
+
+     <button type="button" onclick="printTicket()">🖨 Print Ticket</button>
+
+    <p style="color:green;">Payment Successful 💳</p>
+  </div>`;
+
+  setTimeout(() => {
+  document.getElementById("bookingForm").submit();
+}, 5000);
+}
+
+function closeModal(){
+  document.getElementById("pay").classList.remove("active");
+}
+
+function addWishlist(e,p){
+e.stopPropagation();
+let list=JSON.parse(localStorage.getItem("wishlist"))||[];
+if(!list.includes(p)){
+list.push(p);
+localStorage.setItem("wishlist",JSON.stringify(list));
+alert("Added ❤️");
+}
+}
+
+function goDetail(p){
+window.location="/destination/"+p;
+}
+
+function printTicket(){
+
+  let content = document.getElementById("ticketBox").cloneNode(true);
+let btn = content.querySelector("button");
+if(btn) btn.remove();
+content = content.innerHTML;
+
+  let win = window.open('', '', 'width=600,height=600');
+
+  win.document.write(`
+    <html>
+    <head>
+    <title>Ticket</title>
+    <style>
+      body{font-family:Poppins;text-align:center;padding:20px;}
+      .box{
+        border:2px dashed #333;
+        padding:20px;
+        border-radius:10px;
+      }
+    </style>
+    </head>
+    <body>
+      <div class="box">
+  <h2>🌍 VivaTrips Ticket</h2>
+  <hr>
+  ${content}
+  <hr>
+  <p>Have a safe journey ✈️</p>
+</div>
+    </body>
+    </html>
+  `);
+
+  win.document.close();
+  setTimeout(()=>{
+  win.print();
+},500);
+}
+
+</script>
+
+</body>
+</html>

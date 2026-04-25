@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wishlist | VivaTrips</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+body{
+    font-family:Poppins, sans-serif;
+    background:linear-gradient(120deg,#eef2ff,#f9f9ff);
+    text-align:center;
+}
+
+/* HEADER */
+header{
+    background:#667eea;
+    color:white;
+    padding:20px;
+}
+
+/* GRID */
+.grid{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+    padding:20px;
+}
+
+/* CARD */
+.card{
+    width:220px;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card img{
+    width:100%;
+    height:130px;
+    object-fit:cover;
+}
+
+.card h3{
+    margin:10px;
+}
+
+/* BUTTON */
+.btn{
+    background:#ff4d4d;
+    color:white;
+    border:none;
+    padding:8px;
+    margin:10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* EMPTY */
+.empty{
+    margin-top:30px;
+    color:#555;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>❤️ Your Wishlist</h2>
+<a href="/" style="color:white;">⬅ Back</a>
+</header>
+
+<div class="grid" id="list"></div>
+
+<script>
+
+// GET DATA (fix key name)
+let data = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+let container = document.getElementById("list");
+
+// EMPTY
+if(data.length === 0){
+    container.innerHTML = "<p class='empty'>No items in wishlist yet 😢</p>";
+}
+
+// RENDER CARDS
+data.forEach(place => {
+
+    let img = place.toLowerCase() + ".jpg";
+
+    container.innerHTML += `
+    <div class="card">
+        <img src="/static/images/${img}">
+        <h3>${place}</h3>
+        <button class="btn" onclick="removeItem('${place}')">Remove</button>
+    </div>`;
+});
+
+// REMOVE ITEM
+function removeItem(place){
+    let updated = data.filter(p => p !== place);
+    localStorage.setItem("wishlist", JSON.stringify(updated));
+    location.reload();
+}
+
+</script>
+
+</body>
+</html>

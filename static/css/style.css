@@ -1,0 +1,104 @@
+body{
+font-family:Poppins;
+background:linear-gradient(120deg,#eef2ff,#f9f9ff);
+}
+
+header{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+.grid{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.card{
+width:250px;
+background:white;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+padding-bottom:10px;
+}
+
+.box{
+background:white;
+padding:20px;
+width:60%;
+margin:auto;
+border-radius:15px;
+}
+
+button{
+background:#667eea;
+color:white;
+padding:10px;
+border:none;
+border-radius:10px;
+}
+
+.modal{
+display:none;
+position:fixed;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+}
+
+.modal.active{
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+.confirm-box{
+background:white;
+padding:20px;
+margin:20px;
+border-radius:10px;
+}
+
+/* SPACING FIX */
+.grid{
+    margin-top:40px;
+}
+
+/* FORM ROW */
+.form-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+/* INPUT FIX */
+input, select{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    width:100%;
+    font-size:14px;
+}
+
+/* BOX FIX */
+.box{
+    margin-top:30px;
+}
+
+/* BUTTON FIX */
+button{
+    margin-top:10px;
+    padding:12px;
+    font-size:15px;
+}
+
+/* HEADER LINKS */
+header div a{
+    margin-left:20px;
+}
